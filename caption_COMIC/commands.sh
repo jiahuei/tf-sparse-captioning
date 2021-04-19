@@ -2,7 +2,6 @@
 SCRIPT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 
 cd ${SCRIPT_ROOT}
-source /home/jiahuei/tf-1_9/bin/activate
 
 DSET='/master/datasets/mscoco'
 DSET_PATTERN=''
@@ -93,7 +92,7 @@ for s in 'regular' 'mag_grad_uniform' 'mag_blind'; do
             --supermask_type ${s} \
             --supermask_sparsity_target ${i} \
             --prune_freeze_scopes '' \
-            --checkpoint_path "${LOG_ROOT}/mscoco_v2/word_w256_LSTM_r512/run_01" \
+            --checkpoint_path "${LOG_ROOT}/mscoco_v3/word_w256_LSTM_r512/run_01" \
             --dataset_dir ${DSET:-''} \
             --dataset_file_pattern ${DSET_PATTERN:-''} \
             --log_root ${LOG_ROOT:-''} \
@@ -111,25 +110,13 @@ python train_caption.py \
     --supermask_type 'mag_blind' \
     --supermask_sparsity_target 0.975 \
     --prune_freeze_scopes 'Model/decoder' \
-    --checkpoint_path "${LOG_ROOT}/mscoco_v2/word_w256_LSTM_r512_xu_magBlind_sps_0.80_epoch_10/run_01" \
+    --checkpoint_path "${LOG_ROOT}/mscoco_v3/word_w256_LSTM_r512_xu_magBlind_sps_0.80_epoch_10/run_01" \
     --dataset_dir ${DSET:-''} \
     --dataset_file_pattern ${DSET_PATTERN:-''} \
     --log_root ${LOG_ROOT:-''} \
     --gpu ${GPU} \
     --run 1
 
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magBlind_sps_0.80_epoch_10/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magBlind_sps_0.90_epoch_10/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magBlind_sps_0.95_epoch_10/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magBlind_sps_0.97_epoch_10/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magGradual_sps_0.80_epoch_30_ep2_ep15/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magGradual_sps_0.90_epoch_30_ep2_ep15/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magGradual_sps_0.95_epoch_30_ep2_ep15/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_magGradual_sps_0.97_epoch_30_ep2_ep15/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_REG_1.0e+02_init_5.0_L1_wg_5.0_ann_sps_0.80_constLR/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_REG_1.0e+02_init_5.0_L1_wg_5.0_ann_sps_0.90_constLR/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_REG_1.0e+02_init_5.0_L1_wg_10.0_ann_sps_0.95_constLR/run_01" \
-#"${LOG_ROOT}/mscoco_v2/word_w256_GRU_r512_xu_REG_1.0e+02_init_5.0_L1_wg_20.0_ann_sps_0.97_constLR/run_01" \
 
 ##############################################################################
 ##############################################################################
@@ -197,7 +184,7 @@ for r in 1; do
                 --supermask_type ${j} \
                 --supermask_sparsity_target ${i} \
                 --checkpoint_exclude_scopes 'mask' \
-                --checkpoint_path "${LOG_ROOT}/mscoco_v2/word_w256_LSTM_r512/run_0${r}" \
+                --checkpoint_path "${LOG_ROOT}/mscoco_v3/word_w256_LSTM_r512/run_0${r}" \
                 --dataset_dir ${DSET:-''} \
                 --dataset_file_pattern ${DSET_PATTERN:-''} \
                 --log_root ${LOG_ROOT:-''} \
@@ -278,7 +265,7 @@ declare -a dirs=(
 for dir in "${dirs[@]}"; do
     for i in 1 2 3; do
         python infer_v2.py \
-            --infer_checkpoints_dir "${LOG_ROOT}/mscoco_v2/${dir}/run_0${i}" \
+            --infer_checkpoints_dir "${LOG_ROOT}/mscoco_v3/${dir}/run_0${i}" \
             --infer_set 'test' \
             --save_attention_maps '' \
             --dataset_dir ${DSET:-''} \
@@ -442,7 +429,7 @@ python utils/save_sparse_model.py  \
     --gpu ${GPU:-''}
 
 python utils/save_sparse_model.py  \
-    -c "${LOG_ROOT}/mscoco_v2/word_w256_LSTM_r512/run_01/model_compact-531325"  \
+    -c "${LOG_ROOT}/mscoco_v3/word_w256_LSTM_r512/run_01/model_compact-531325"  \
     --save_unmasked_model '' \
     --infer_on_test '' \
     --gpu ${GPU:-''}
