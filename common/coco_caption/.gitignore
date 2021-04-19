@@ -1,0 +1,11 @@
+pycocoevalcap/spice/tmp/
+pycocoevalcap/spice/cache/
+pycocoevalcap/tokenizer/tmp*
+*3.6.0.jar
+*3.6.0-models.jar
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
