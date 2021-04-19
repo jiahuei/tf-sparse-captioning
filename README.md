@@ -1,12 +1,13 @@
 # TF Sparse Captioning
 
 ## Description
+
 This is the companion code for [sparse-image-captioning](https://github.com/jiahuei/sparse-image-captioning).
 
 This repo contains Soft-Attention model implemented in TensorFlow 1.9.
 
-**Some pre-trained model checkpoints are available at 
-[this repo](https://github.com/jiahuei/COMIC-Pretrained-Captioning-Models).**
+Please note that this code is for reference purposes; and although it still works, is largely outdated.
+For a more up-to-date implementation, see [sparse-image-captioning](https://github.com/jiahuei/sparse-image-captioning).
 
 
 ## Setup
@@ -20,16 +21,26 @@ Please refer to `caption_COMIC/commands.sh` for example training and inference c
 
 ### Training
 ```shell script
-for i in 0.975 0.95 0.9 0.8; do
+for i in 0.8 0.9 0.95 0.975; do
     python train_caption.py \
-        --name 'dec_prune' \
-        --train_mode 'cnn_freeze' \
-        --cnn_name 'masked_inception_v1'  \
-        --token_type 'word' \
+        --name '' \
         --rnn_name 'LSTM' \
         --supermask_type 'regular' \
         --supermask_sparsity_target ${i} \
-        --prune_freeze_scopes '' \
+        --checkpoint_path "${CNN_CKPT}" \
+        --dataset_dir ${DSET:-''} \
+        --dataset_file_pattern ${DSET_PATTERN:-''} \
+        --log_root ${LOG_ROOT:-''} \
+        --gpu ${GPU} \
+        --run 1
+done
+
+for i in 0.8 0.9 0.95 0.975; do
+    python train_caption.py \
+        --name '' \
+        --rnn_name 'GRU' \
+        --supermask_type 'regular' \
+        --supermask_sparsity_target ${i} \
         --checkpoint_path "${CNN_CKPT}" \
         --dataset_dir ${DSET:-''} \
         --dataset_file_pattern ${DSET_PATTERN:-''} \

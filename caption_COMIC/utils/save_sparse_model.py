@@ -46,13 +46,13 @@ def parse_args():
     parser.add_argument(
         '--save_unmasked_model',
         type=bool,
-        default=True,
+        default=False,
         help='Boolean. If True, additionally save model without applying mask.')
 
     parser.add_argument(
         '--infer_on_test',
         type=bool,
-        default=False,
+        default=True,
         help='Boolean. If True, run the final sparse model on the test set.')
     parser.add_argument(
         '--gpu',

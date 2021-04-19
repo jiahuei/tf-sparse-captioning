@@ -1,7 +1,3 @@
-# To build without context
-# docker build -t jiahuei/tensorflow:1.9.0-keras - < tf_1-9_v2
-
-
 FROM tensorflow/tensorflow:1.9.0-gpu-py3
 
 RUN apt update && apt install -y \
@@ -20,6 +16,15 @@ RUN apt-get update && apt-get install -y openjdk-8-jdk
 
 ### Clean-up ###
 RUN apt-get clean
+
+
+### Create a non-root user
+# https://github.com/facebookresearch/detectron2/blob/v0.3/docker/Dockerfile
+ARG USER_ID=1000
+RUN useradd -m --no-log-init --system  --uid ${USER_ID} appuser -g sudo
+RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+USER appuser
+ENV PATH="/home/appuser/.local/bin:${PATH}"
 
 WORKDIR /master/src
 
